@@ -48,10 +48,10 @@ byte segG = 8; //Display pin 5
 
 byte dP = 13; // decimal point
 
-#define LMPIN A0     // what pin we're LM35 is connected
-#define LMPIN2 A1     // what pin we're LM35 is connected
+//#define LMPIN A0     // what pin we're LM35 is connected
+//#define LMPIN2 A1     // what pin we're LM35 is connected
 
-#define BUT1 A5    // - switch
+#define BUT1 A1    // - switch
 #define BUT2 A2    // + switch
 #define BUT3 A3    // MENU switch
 
@@ -146,7 +146,7 @@ if (semn == 0) tset = -tset;
  Serial.begin(9600);
  Serial.println("test for niq_ro");
 
-k = 0.86;  // factor corectie citire la multiplexare (corection factor)
+k = 1;  // factor corectie citire la multiplexare (corection factor)
 delay(100);
 /*
 t = analogRead(A0);
@@ -159,6 +159,18 @@ pornire = 0; // centrala nu e pornita
 
 // for DS18B20 sensor
 sensors.begin(); 
+
+// 9 bit resolution by default 
+  // Note the programmer is responsible for the right delay
+  // we could do something usefull here instead of the delay
+  int resolution = 10;
+  sensors.setResolution(resolution);
+  delay(750/ (1 << (12-resolution)));
+
+// using DS18B20 ( http://arduinoprojects.ru/2014/08/%D0%BF%D1%80%D0%BE%D1%81%D1%82%D0%BE%D0%B9-%D1%82%D0%B5%D1%80%D0%BC%D0%BE%D1%81%D1%82%D0%B0%D1%82-%D0%BD%D0%B0-arduino-%D0%B8-%D1%86%D0%B8%D1%84%D1%80%D0%BE%D0%B2%D0%BE%D0%BC-%D1%82%D0%B5%D1%80%D0%BC/ )
+sensors.requestTemperatures(); // запрос на получение температуры
+float t2=(sensors.getTempCByIndex(0)); 
+t0 = t2;
 }
 
 void loop() {
@@ -195,12 +207,31 @@ if (meniu == 0) {
 int numara = 0;
   while (meniu == 0) {
 numara = numara + 1;
-  if (numara == 2000)
+  if (numara == 10000)
     {
 //  float t = analogRead(LMPIN);
 //  float t0 = t *500 / 1023;
-citire();
+//citire();
+
+// 9 bit resolution by default 
+  // Note the programmer is responsible for the right delay
+  // we could do something usefull here instead of the delay
+//  int resolution = 10;
+//  sensors.setResolution(resolution);
+//  delay(750/ (1 << (12-resolution)));
+
+// using DS18B20 ( http://arduinoprojects.ru/2014/08/%D0%BF%D1%80%D0%BE%D1%81%D1%82%D0%BE%D0%B9-%D1%82%D0%B5%D1%80%D0%BC%D0%BE%D1%81%D1%82%D0%B0%D1%82-%D0%BD%D0%B0-arduino-%D0%B8-%D1%86%D0%B8%D1%84%D1%80%D0%BE%D0%B2%D0%BE%D0%BC-%D1%82%D0%B5%D1%80%D0%BC/ )
+sensors.requestTemperatures(); // запрос на получение температуры
+float t2=(sensors.getTempCByIndex(0)); 
+Serial.println(t2);
+
  t0 = (t0 + t2) /2;
+/*
+Serial.print("t2=");
+Serial.print(t2);
+Serial.print("t0=");
+Serial.print(t0);
+*/
 
 // only for test:
 //t0 = 23.4;
@@ -317,14 +348,14 @@ float citire() {
 // 9 bit resolution by default 
   // Note the programmer is responsible for the right delay
   // we could do something usefull here instead of the delay
-  int resolution = 11;
+  int resolution = 9;
   sensors.setResolution(resolution);
   delay(750/ (1 << (12-resolution)));
 
 // using DS18B20 ( http://arduinoprojects.ru/2014/08/%D0%BF%D1%80%D0%BE%D1%81%D1%82%D0%BE%D0%B9-%D1%82%D0%B5%D1%80%D0%BC%D0%BE%D1%81%D1%82%D0%B0%D1%82-%D0%BD%D0%B0-arduino-%D0%B8-%D1%86%D0%B8%D1%84%D1%80%D0%BE%D0%B2%D0%BE%D0%BC-%D1%82%D0%B5%D1%80%D0%BC/ )
 sensors.requestTemperatures(); // запрос на получение температуры
 float t2=(sensors.getTempCByIndex(0)); 
-
+Serial.println(t2);
   return t2;}
 
 
