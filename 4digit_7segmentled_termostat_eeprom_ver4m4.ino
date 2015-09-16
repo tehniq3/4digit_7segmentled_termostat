@@ -56,8 +56,8 @@ byte dP = 13; // decimal point
 #define BUT3 A3    // MENU switch
 
 #define RECE A4    // output for lower temperature
-#define CALD A6    // output for upper temperature
-#define BINE A7    // output for ok temperature
+#define CALD A5    // output for upper temperature
+#define BINE A6    // output for ok temperature
 
 //int tset = 225;  // temperature set (x10)
 //int tset = 24;  // temperature set (x10)
