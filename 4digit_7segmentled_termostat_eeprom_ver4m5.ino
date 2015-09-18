@@ -1,3 +1,4 @@
+// // thermostat with 18B20 ver.4m5 - 17.09.2015, Craiova - Romania
 // http://nicuflorica.blogspot.ro/2013/07/afisaje-led-cu-7-segmente-si-arduino-ii.html
 /*
  6-13-2011
@@ -196,48 +197,23 @@ delay(250);
 if (meniu == 4) meniu = 0;
 
 if (millis() < 2000) citire();
-//  t = analogRead(LMPIN);
-//  t0 = t *500 / 1023;
 leduri();
-
   Serial.print(t);
   Serial.print("/1023 --> ");
   Serial.print("t = ");
   Serial.println(t0);
-
-
-
-//displayNumber(t0*10);
     
 if (meniu == 0) {
 int numara = 0;
   while (meniu == 0) {
 numara = numara + 1;
-  if (numara == 3000)
+  if (numara == 5000)  // seconds x 384 (empiric formula)
     {
-//  float t = analogRead(LMPIN);
-//  float t0 = t *500 / 1023;
-//citire();
-
-// 9 bit resolution by default 
-  // Note the programmer is responsible for the right delay
-  // we could do something usefull here instead of the delay
-//  int resolution = 10;
-//  sensors.setResolution(resolution);
-//  delay(750/ (1 << (12-resolution)));
-
 // using DS18B20 ( http://arduinoprojects.ru/2014/08/%D0%BF%D1%80%D0%BE%D1%81%D1%82%D0%BE%D0%B9-%D1%82%D0%B5%D1%80%D0%BC%D0%BE%D1%81%D1%82%D0%B0%D1%82-%D0%BD%D0%B0-arduino-%D0%B8-%D1%86%D0%B8%D1%84%D1%80%D0%BE%D0%B2%D0%BE%D0%BC-%D1%82%D0%B5%D1%80%D0%BC/ )
 sensors.requestTemperatures(); // запрос на получение температуры
 float t2=(sensors.getTempCByIndex(0)); 
 Serial.println(t2);
-
  t0 = (t0 + t2) /2;
-/*
-Serial.print("t2=");
-Serial.print(t2);
-Serial.print("t0=");
-Serial.print(t0);
-*/
 
 // only for test:
 //t0 = 23.4;
